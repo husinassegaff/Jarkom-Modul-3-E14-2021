@@ -38,6 +38,10 @@ Prefix IP Address kelompok kami adalah `10.36`
 
 ## Persiapan
 
+Membuat topologi sebagai berikut
+
+![topologi](img/topologi.png)
+
 Mengatur _network configuration_ pada
 
 - router **Foosha**
@@ -433,6 +437,7 @@ Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e14.com denga
      ```
    - Untuk memeriksa proxy terhubung dengan internet dapat dilakukan instalasi lynx
      ```
+     unset http_prox
      apt-get update
      apt-get install lynx -y
      ```
