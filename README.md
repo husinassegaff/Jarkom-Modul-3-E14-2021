@@ -221,6 +221,11 @@ Foosha sebagai DHCP Relay
       OPTIONS=""
       ```
 
+    - Kemudian, restart isc-dhcp-relay
+      ```
+      service isc-dhpc-relay restart
+      ```
+
 ## Soal 3 - 6
 
 - **No 3**
