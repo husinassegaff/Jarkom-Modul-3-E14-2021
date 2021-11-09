@@ -223,7 +223,7 @@ Foosha sebagai DHCP Relay
 
     - Kemudian, restart isc-dhcp-relay
       ```
-      service isc-dhpc-relay restart
+      service isc-dhcp-relay restart
       ```
 
 ## Soal 3 - 6
