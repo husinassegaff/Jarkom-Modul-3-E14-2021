@@ -596,7 +596,7 @@ Tambahan: ```http_access deny all``` dipindah ke line paling akhir.
 Sehingga yang harus ditambahkan pada ```/etc/squid/squid.conf``` adalah sebagai berikut.
 ```
    acl multimedia url_regex -i \.png$ \.jpg$
-   acl bar proxy_auth luffybelikapalt07
+   acl bar proxy_auth luffybelikapale14
    
    delay_pools 1
    delay_class 1 1
