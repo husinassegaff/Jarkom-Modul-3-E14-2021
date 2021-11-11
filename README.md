@@ -14,7 +14,10 @@ A. Jawaban
 
 - [Soal 1](#soal-1)
 - [Soal 2](#soal-2)
-- [Soal 3-6](#soal3-6)
+- [Soal 3](#soal-3)
+- [Soal 4](#soal-4)
+- [Soal 5](#soal-5)
+- [Soal 6](#soal-6)
 - [Soal 7](#soal-7)
 - [Soal 8](#soal-8)
 - [Soal 9](#soal-9)
@@ -359,7 +362,7 @@ Foosha sebagai DHCP Relay
      d. Tottoland
      ![ping_tottoland](img/no4_ping_tottoland.png)
 
-## Soal 7
+## No 7
 
 Luffy dan Zoro berencana menjadikan Skypie sebagai server untuk jual beli kapal yang dimilikinya dengan alamat IP yang tetap dengan IP 10.36.3.69
 
@@ -402,7 +405,7 @@ Untuk mencari `hwadress_milik_Skypie` dapat dilakukan perintah `ifconfig eth0` p
 
 ![hwadress_skypie](img/no7_hwadress_skypie.png)
 
-## Soal 8
+## No 8
 
 Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e14.com dengan port yang digunakan adalah 5000
 
@@ -450,7 +453,7 @@ Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e14.com denga
      ```
      ![lynx_loguetown](img/no8_lynx_loguetown.png)
 
-## Soal 9
+## No 9
 
 Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapalyyy dengan password luffy_yyy dan zorobelikapalyyy dengan password zoro_yyy
 
@@ -500,7 +503,7 @@ Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy di
    - Mencoba lynx pada google.com
      ![lynx_loguetown](img/no9_lynx_loguetown.png)
 
-## Soal 10
+## No 10
 
 Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet dibatasi hanya dapat diakses setiap hari Senin-Kamis pukul 07.00-11.00 dan setiap hari Selasa-Jum’at pukul 17.00-03.00 keesokan harinya (sampai Sabtu pukul 03.00)
 
@@ -550,3 +553,52 @@ Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet 
    - Mencoba lynx pada google.com
      ![lynx_loguetown](img/no10_lynx_loguetown.png)
      Terjadi _access denied_ karena diakses bukan pada waktu yang diperbolehkan
+
+## No 12
+
+Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencari harta karun di super.franky.e14.com. Tugas pencarian dibagi menjadi dua misi, Luffy bertugas untuk mendapatkan gambar (.png, .jpg), sedangkan Zoro mendapatkan sisanya. Karena Luffy orangnya sangat teliti untuk mencari harta karun, ketika ia berhasil mendapatkan gambar, ia mendapatkan gambar dan melihatnya dengan kecepatan 10 kbps.
+
+**Pembahasan**
+
+1. Untuk membatasi format file yang dapat diunduh, maka ditambahkan line berikut pada ```/etc/squid/squid.conf```. Digunakan ACl url_regex untuk membatasi file yang dapat hanya yang berformat .png dan .jpg.
+```acl multimedia url_regex -i \.png$ \.jpg$```
+
+2. Selanjutnya karena batasan format yang dapat diunduh hanya untuk Luffy, maka ditambahkan line dibawah untuk identifikasi user mana yang diterapkan aturan ini. 
+```acl bar proxy_auth luffybelikapale14```
+
+3. Untuk mengendalikan besarnya bandwidth pada pengunduhan maka digunakan delay pools. Saat ini hanya diperlukan 1 delay pools maka ditambahkan line berikut.
+```delay_pools 1```
+
+4. Selanjutnya untuk tipe delay, cukup digunakan delay class jenis 1.
+```delay_class 1 1```
+
+5. Kemudian karena bandwidth dibatasi pada 10 kbps, maka dilakukan perhitungan berikut.
+10 kbps = 10000 bit per sec
+10000 bit per sec/8 = 1250 Byte per sec
+Sehingga parameter delay pools adalah sebagai berikut.
+```delay_parameters 1 1250/1250```
+
+6. Selanjutnya dilakukan setting akses-akses untuk delay pool. Jika user terlist di ```bar```, maka batasan ```multimedia``` diterapkan.
+```delay_access 1 allow bar multimedia```
+
+Karena hanya Luffy yang dapat mengunduh file berformat (.png, .jpg), maka akses user lain ke format file tersebut ditolak. 
+```delay_access 1 deny all```
+
+8. Tambahan: ```http_access deny all``` dipindah ke line paling akhir.
+
+Sehingga yang harus ditambahkan pada ```/etc/squid/squid.conf``` adalah sebagai berikut.
+```
+acl multimedia url_regex -i \.png$ \.jpg$
+acl bar proxy_auth luffybelikapalt07
+delay_pools 1
+delay_class 1 1
+delay_parameters 1 1250/1250
+delay_access 1 allow bar multimedia
+delay_access 1 deny all
+```
+
+## No 13
+
+Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kecepatan kapal Zoro tidak dibatasi ketika sudah mendapatkan harta yang diinginkannya.
+
+**Pembahasan**
