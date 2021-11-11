@@ -560,11 +560,11 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
 
 **Pembahasan**
 
-1. Untuk membatasi format file yang dapat diunduh, maka ditambahkan line berikut pada ```/etc/squid/squid.conf```. Digunakan ACl url_regex untuk membatasi file yang dapat hanya yang berformat .png dan .jpg.
+1. Untuk membatasi ekstensi file yang dapat diunduh, maka ditambahkan line berikut pada ```/etc/squid/squid.conf```. Digunakan ACl url_regex untuk membatasi file yang dapat diunduh hanya yang memiliki ekstensi .png dan .jpg.
 
    ```acl multimedia url_regex -i \.png$ \.jpg$```
 
-2. Selanjutnya karena batasan format yang dapat diunduh hanya untuk Luffy, maka ditambahkan line dibawah untuk identifikasi user mana yang diterapkan aturan ini. 
+2. Selanjutnya karena batasan ekstensi yang dapat diunduh hanya untuk Luffy, maka ditambahkan line dibawah untuk identifikasi user mana yang diterapkan aturan ini. 
    
    ```acl bar proxy_auth luffybelikapale14```
 
@@ -573,7 +573,8 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
    ```delay_pools 1```
 
 4. Selanjutnya untuk tipe delay, cukup digunakan delay class jenis 1.
-```delay_class 1 1```
+
+   ```delay_class 1 1```
 
 5. Kemudian karena bandwidth dibatasi pada 10 kbps, maka dilakukan perhitungan berikut.
    10 kbps = 10000 bit per sec
@@ -587,7 +588,7 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
 
    ```delay_access 1 allow bar multimedia```
 
-   Karena hanya Luffy yang dapat mengunduh file berformat (.png, .jpg), maka akses user lain ke format file tersebut ditolak. 
+   Karena hanya Luffy yang dapat mengunduh file dengan ekstensi (.png, .jpg), maka akses user lain ke file terhadap ekstensi tersebut ditolak. 
 
    ```delay_access 1 deny all```
 
