@@ -220,7 +220,7 @@ Foosha sebagai DHCP Relay
 
     - Kemudian, restart isc-dhcp-relay
       ```
-      service isc-dhpc-relay restart
+      service isc-dhcp-relay restart
       ```
 
 ## Soal 3 - 6
@@ -349,7 +349,7 @@ Foosha sebagai DHCP Relay
      ![dns_skypie](img/no4_dns_skypie.png)
      d. Tottoland
      ![dns_tottoland](img/no4_dns_tottoland.png)
-   - Dan juga lakukan ping untuk memastikan terhubung dengan internet <br>
+   - Jangan lupa jalankan `service bind9 restart` pada EniesLobby sebelum `ping -w 3 google.com` untuk memastikan terhubung dengan internet <br>
      a. Loguetown
      ![ping_loguetown](img/no4_ping_loguetown.png)
      b. Alabasta
