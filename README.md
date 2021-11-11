@@ -597,6 +597,7 @@ Sehingga yang harus ditambahkan pada ```/etc/squid/squid.conf``` adalah sebagai 
 ```
    acl multimedia url_regex -i \.png$ \.jpg$
    acl bar proxy_auth luffybelikapalt07
+   
    delay_pools 1
    delay_class 1 1
    delay_parameters 1 1250/1250
