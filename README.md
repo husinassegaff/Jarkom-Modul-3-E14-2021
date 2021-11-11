@@ -14,10 +14,7 @@ A. Jawaban
 
 - [Soal 1](#soal-1)
 - [Soal 2](#soal-2)
-- [Soal 3](#soal-3)
-- [Soal 4](#soal-4)
-- [Soal 5](#soal-5)
-- [Soal 6](#soal-6)
+- [Soal 3-6](#soal3-6)
 - [Soal 7](#soal-7)
 - [Soal 8](#soal-8)
 - [Soal 9](#soal-9)
@@ -362,7 +359,7 @@ Foosha sebagai DHCP Relay
      d. Tottoland
      ![ping_tottoland](img/no4_ping_tottoland.png)
 
-## No 7
+## Soal 7
 
 Luffy dan Zoro berencana menjadikan Skypie sebagai server untuk jual beli kapal yang dimilikinya dengan alamat IP yang tetap dengan IP 10.36.3.69
 
@@ -405,7 +402,7 @@ Untuk mencari `hwadress_milik_Skypie` dapat dilakukan perintah `ifconfig eth0` p
 
 ![hwadress_skypie](img/no7_hwadress_skypie.png)
 
-## No 8
+## Soal 8
 
 Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e14.com dengan port yang digunakan adalah 5000
 
@@ -453,7 +450,7 @@ Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e14.com denga
      ```
      ![lynx_loguetown](img/no8_lynx_loguetown.png)
 
-## No 9
+## Soal 9
 
 Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapalyyy dengan password luffy_yyy dan zorobelikapalyyy dengan password zoro_yyy
 
@@ -503,7 +500,7 @@ Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy di
    - Mencoba lynx pada google.com
      ![lynx_loguetown](img/no9_lynx_loguetown.png)
 
-## No 10
+## Soal 10
 
 Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet dibatasi hanya dapat diakses setiap hari Senin-Kamis pukul 07.00-11.00 dan setiap hari Selasa-Jum’at pukul 17.00-03.00 keesokan harinya (sampai Sabtu pukul 03.00)
 
