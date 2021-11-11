@@ -605,7 +605,7 @@ Sehingga yang harus ditambahkan pada ```/etc/squid/squid.conf``` adalah sebagai 
    delay_access 1 deny all
 ```
 
-![no12_squid.conf](img/no12_squid.png)
+![no12_squid.conf](img/no12_squid.conf.png)
 
 ## No 13
 
