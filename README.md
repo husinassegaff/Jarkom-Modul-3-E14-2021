@@ -605,6 +605,8 @@ Sehingga yang harus ditambahkan pada ```/etc/squid/squid.conf``` adalah sebagai 
    delay_access 1 deny all
 ```
 
+![no12_squid.conf](img/no12_squid.png)
+
 ## No 13
 
 Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kecepatan kapal Zoro tidak dibatasi ketika sudah mendapatkan harta yang diinginkannya.
