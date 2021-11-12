@@ -571,7 +571,7 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
    apt-get install libapache2-mod-php7.0 -y
    apt-get install unzip -y
    ```
-7. Buat file baru `/etc/apache2/sites-available/super.franky.e14.com.conf` dan tambahkan configurasi berikut.
+7. Buat file baru `vim /etc/apache2/sites-available/super.franky.e14.com.conf` dan tambahkan configurasi berikut.
 8. Aktifkan site yang baru dibuat sengan menjalankan `a2ensite super.franky.e14.com.conf`.
 9. Download folder super.franky yang telah disediakan di modul sebelumnya untuk resource di folder `/var/www` dengan menjalankan perintah berikut.
    ```
@@ -581,7 +581,9 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
    ```
 10. Restart Apache2 untuk menerapkan perubahan dengan menjalakan `service apache2 restart`.
 11. Pada Water7 buka file `/etc/squid/squid.conf` dan tambahkan konfigurasi berikut.
-12. Untuk mengecek hasilnya, pada Loguetown jalankan `lynx google.com`.  
+12. Untuk mengecek hasilnya, pada Loguetown jalankan `lynx google.com`. Maka hasilnya akan menunjukan seperti gambar di bawah ini.
+
+
 ## No 12
 
 Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencari harta karun di super.franky.e14.com. Tugas pencarian dibagi menjadi dua misi, Luffy bertugas untuk mendapatkan gambar (.png, .jpg), sedangkan Zoro mendapatkan sisanya. Karena Luffy orangnya sangat teliti untuk mencari harta karun, ketika ia berhasil mendapatkan gambar, ia mendapatkan gambar dan melihatnya dengan kecepatan 10 kbps.
