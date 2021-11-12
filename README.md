@@ -553,7 +553,35 @@ Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet 
    - Mencoba lynx pada google.com
      ![lynx_loguetown](img/no10_lynx_loguetown.png)
      Terjadi _access denied_ karena diakses bukan pada waktu yang diperbolehkan
+## No 11
 
+Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar mudah mengingat website transaksi jual beli kapal. Setiap mengakses google.com, akan diredirect menuju super.franky.yyy.com dengan website yang sama pada soal shift modul 2. Web server super.franky.yyy.com berada pada node Skypie
+
+**Pembahasan**
+
+1. Pada EniesLobby buat forlder baru `mkdir /etc/bind/kaizoku` untuk konfigurasi DNS. Buat file baru `vim /etc/bind/kaizoku/franky.e14.com` kemudian tambahkan konfigurasi berikut.
+2. Buka file `vim /etc/bind/named.conf.options` dan tambahkan konfigurasi berikut.
+3. Buka file `vim /etc/bind/named.conf.local` dan tambahkan konfigurasi berikut.
+4. Restart Bind9 dengan cara `service bind9 restart`.
+5. Pada Skypie install package-package yang dibutuhkan seperti command di bawah ini.
+   ```
+   apt-get update
+   apt-get install wget -y
+   apt-get install apache2 -y
+   apt-get install libapache2-mod-php7.0 -y
+   apt-get install unzip -y
+   ```
+7. Buat file baru `/etc/apache2/sites-available/super.franky.e14.com.conf` dan tambahkan configurasi berikut.
+8. Aktifkan site yang baru dibuat sengan menjalankan `a2ensite super.franky.e14.com.conf`.
+9. Download folder super.franky yang telah disediakan di modul sebelumnya untuk resource di folder `/var/www` dengan menjalankan perintah berikut.
+   ```
+   wget https://raw.githubusercontent.com/FeinardSlim/Praktikum-Modul-2-Jarkom/main/super.franky.zip
+   unzip super.franky.zip
+   mv super.franky /var/www/super.franky.e14.com
+   ```
+10. Restart Apache2 untuk menerapkan perubahan dengan menjalakan `service apache2 restart`.
+11. Pada Water7 buka file `/etc/squid/squid.conf` dan tambahkan konfigurasi berikut.
+12. Untuk mengecek hasilnya, pada Loguetown jalankan `lynx google.com`.  
 ## No 12
 
 Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencari harta karun di super.franky.e14.com. Tugas pencarian dibagi menjadi dua misi, Luffy bertugas untuk mendapatkan gambar (.png, .jpg), sedangkan Zoro mendapatkan sisanya. Karena Luffy orangnya sangat teliti untuk mencari harta karun, ketika ia berhasil mendapatkan gambar, ia mendapatkan gambar dan melihatnya dengan kecepatan 10 kbps.
