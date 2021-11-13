@@ -629,7 +629,7 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
 
 **Pembahasan**
 
-1. Untuk membatasi ekstensi file yang dapat diunduh, maka ditambahkan line berikut pada `/etc/squid/squid.conf`. Digunakan ACl url_regex untuk membatasi file yang dapat diunduh hanya yang memiliki ekstensi .png dan .jpg.
+1. Untuk membatasi ekstensi file yang dapat diunduh, maka ditambahkan line berikut pada `/etc/squid/squid.conf` di **Water7**. Digunakan ACl url_regex untuk membatasi file yang dapat diunduh hanya yang memiliki ekstensi .png dan .jpg.
 
    `acl multimedia url_regex -i \.png$ \.jpg$`
 
@@ -648,8 +648,17 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
 5. Kemudian karena bandwidth dibatasi pada 10 kbps, maka dilakukan perhitungan berikut.
    10 kbps = 10000 bit per sec
    10000 bit per sec/8 = 1250 Byte per sec
+   <<<<<<< HEAD
 
    Sehingga parameter delay pools adalah sebagai berikut.
+
+   Format dari delay_parameter adalah restore/max.
+   Restore menunjukkan maksimum kecepatan data yang dapat dilewatkan bila harga max sudah terlampaui, dalam satuan bytes/second.  
+    Sedangkan max menunjukkan besar-nya file atau bucket yang dapat dilewatkan tanpa melalui proses delay, dalam satuan bytes.
+   Karena pembatasan perlu dilakukan pada proses mendapatkan gambar dan melihatnya, maka pembatasan kecepatan sudah dilakukan sebelum pengunduhan file.
+   Agar kecepatan tidak melampaui 10 kbps, maka nilai max diperkecil. Misa kita tentukan batasnya 1 KB.
+
+   `delay_parameters 1 1250/125`
 
    `delay_parameters 1 1250/1250`
 
@@ -678,8 +687,29 @@ Sehingga yang harus ditambahkan pada `/etc/squid/squid.conf` adalah sebagai beri
 
 ![no12_squid.conf](img/no12_squid.conf.png)
 
+Selanjutnya dilakukan testing pada **Loguetown**.
+
 ## No 13
 
 Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kecepatan kapal Zoro tidak dibatasi ketika sudah mendapatkan harta yang diinginkannya.
 
 **Pembahasan**
+
+Berdasarkan soal ini, kecepatan Zoro tidak dibatasi saat melihat file, namu kemungkinan dibatasi saat pengunduhan. Maka dari itu, ditambahkan delay pool satu lagi untuk Zoro. Ukuran file terkecil pada website super.franky.e14.com adalah sekitar 20 KB. Sehingga ketika max 20 KB hit, maka kecepatan di restore tidak dibatasi lagi.
+
+```
+   acl multimedia url_regex -i \.png$ \.jpg$
+   acl bar proxy_auth luffybelikapale14
+   acl foo proxy_auth zorobelikapale14
+
+   delay_pools 2
+   delay_class 1 1
+   delay_parameters 1 1250/1250
+   delay_access 1 allow bar multimedia
+   delay_access 1 deny all
+
+   delay_class 2 1
+   delay_parameters 2 -1/20000
+   delay_access 2 allow foo
+   delay_access 2 deny all
+```
