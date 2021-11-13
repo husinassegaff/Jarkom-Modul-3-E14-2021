@@ -14,10 +14,7 @@ A. Jawaban
 
 - [Soal 1](#soal-1)
 - [Soal 2](#soal-2)
-- [Soal 3](#soal-3)
-- [Soal 4](#soal-4)
-- [Soal 5](#soal-5)
-- [Soal 6](#soal-6)
+- [Soal 3-6](#soal-3-6)
 - [Soal 7](#soal-7)
 - [Soal 8](#soal-8)
 - [Soal 9](#soal-9)
@@ -362,7 +359,7 @@ Foosha sebagai DHCP Relay
      d. Tottoland
      ![ping_tottoland](img/no4_ping_tottoland.png)
 
-## No 7
+## Soal 7
 
 Luffy dan Zoro berencana menjadikan Skypie sebagai server untuk jual beli kapal yang dimilikinya dengan alamat IP yang tetap dengan IP 10.36.3.69
 
@@ -405,7 +402,7 @@ Untuk mencari `hwadress_milik_Skypie` dapat dilakukan perintah `ifconfig eth0` p
 
 ![hwadress_skypie](img/no7_hwadress_skypie.png)
 
-## No 8
+## Soal 8
 
 Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e14.com dengan port yang digunakan adalah 5000
 
@@ -442,7 +439,7 @@ Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e14.com denga
      ```
      zone "jualbelikapal.e14.com" {
          type master;
-         file "/etc/bind/jarkom/jualbelikapal.e14.com";
+         file "/etc/bind/kaizoku/jualbelikapal.e14.com";
      };
      ```
    - Buat folder `kaizoku` pada `/etc/bind`
@@ -490,7 +487,7 @@ Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e14.com denga
      ```
      ![ping_loguetown](img/no8_ping_loguetown.png)
 
-## No 9
+## Soal 9
 
 Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapale14 dengan password luffy_e14 dan zorobelikapale14 dengan password zoro_e14
 
@@ -541,7 +538,7 @@ Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy di
      ![lynx_loguetown](img/no9_lynx_loguetown.png)
      ![lynx2_loguetown](img/no9_lynx2_loguetown.png)
 
-## No 10
+## Soal 10
 
 Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet dibatasi hanya dapat diakses setiap hari Senin-Kamis pukul 07.00-11.00 dan setiap hari Selasa-Jum’at pukul 17.00-03.00 keesokan harinya (sampai Sabtu pukul 03.00)
 
@@ -593,7 +590,7 @@ Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet 
      ![lynx_loguetown](img/no10_lynx_loguetown.png)
      Terjadi _access denied_ karena diakses bukan pada waktu yang diperbolehkan
 
-## No 11
+## Soal 11
 
 Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar mudah mengingat website transaksi jual beli kapal. Setiap mengakses google.com, akan diredirect menuju super.franky.yyy.com dengan website yang sama pada soal shift modul 2. Web server super.franky.yyy.com berada pada node Skypie
 
@@ -623,7 +620,7 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
 10. Pada Water7 buka file `/etc/squid/squid.conf` dan tambahkan konfigurasi berikut.
 11. Untuk mengecek hasilnya, pada Loguetown jalankan `lynx google.com`. Maka hasilnya akan menunjukan seperti gambar di bawah ini.
 
-## No 12
+## Soal 12
 
 Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencari harta karun di super.franky.e14.com. Tugas pencarian dibagi menjadi dua misi, Luffy bertugas untuk mendapatkan gambar (.png, .jpg), sedangkan Zoro mendapatkan sisanya. Karena Luffy orangnya sangat teliti untuk mencari harta karun, ketika ia berhasil mendapatkan gambar, ia mendapatkan gambar dan melihatnya dengan kecepatan 10 kbps.
 
@@ -689,7 +686,7 @@ Sehingga yang harus ditambahkan pada `/etc/squid/squid.conf` adalah sebagai beri
 
 Selanjutnya dilakukan testing pada **Loguetown**.
 
-## No 13
+## Soal 13
 
 Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kecepatan kapal Zoro tidak dibatasi ketika sudah mendapatkan harta yang diinginkannya.
 
@@ -713,3 +710,7 @@ Berdasarkan soal ini, kecepatan Zoro tidak dibatasi saat melihat file, namu kemu
    delay_access 2 allow foo
    delay_access 2 deny all
 ```
+
+## Kendala
+
+Kendala yang dialami kelompok kami pada pengerjaan nomor 12 dan 13
