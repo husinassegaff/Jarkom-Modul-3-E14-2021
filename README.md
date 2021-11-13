@@ -709,7 +709,7 @@ Berdasarkan soal ini, kecepatan Zoro tidak dibatasi saat melihat file, namu kemu
    delay_access 1 deny all
 
    delay_class 2 1
-   delay_parameters 2 -1/20000
+   delay_parameters 2 300000/20000
    delay_access 2 allow ZORO
    delay_access 2 deny all
 ```
