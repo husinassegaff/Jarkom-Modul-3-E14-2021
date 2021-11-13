@@ -596,11 +596,33 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
 
 **Pembahasan**
 
-1. Pada EniesLobby buat forlder baru `mkdir /etc/bind/kaizoku` untuk konfigurasi DNS. Buat file baru `vim /etc/bind/kaizoku/franky.e14.com` kemudian tambahkan konfigurasi berikut.
-2. Buka file `vim /etc/bind/named.conf.options` dan tambahkan konfigurasi berikut.
-3. Buka file `vim /etc/bind/named.conf.local` dan tambahkan konfigurasi berikut.
-4. Restart Bind9 dengan cara `service bind9 restart`.
-5. Pada Skypie install package-package yang dibutuhkan seperti command di bawah ini.
+1. Pada EniesLobby buat forlder baru `mkdir /etc/bind/sunnygo` untuk konfigurasi DNS. Buat file baru `vim /etc/bind/sunnygo/franky.e14.com` kemudian tambahkan konfigurasi berikut.
+   ```
+   $TTL    604800
+   @       IN      SOA     super.franky.e14.com. root.super.franky.e14.com. (
+                        2021100401      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+   ;  
+   @       IN      NS      super.franky.e14.com.
+   @       IN      A       10.36.3.69   #IP Skypie
+   ```
+2. Buka file `vim /etc/bind/named.conf.local` dan tambahkan konfigurasi berikut.
+   ```
+   zone "jualbelikapal.e14.com" {
+        type master;
+        file "/etc/bind/kaizoku/jualbelikapal.e14.com";
+   };
+
+   zone "super.franky.e14.com" {
+        type master;
+        file "/etc/bind/sunnygo/super.franky.e14.com";
+   };
+   ```
+3. Restart Bind9 dengan cara `service bind9 restart`.
+4. Pada Skypie install package-package yang dibutuhkan seperti command di bawah ini.
    ```
    apt-get update
    apt-get install wget -y
@@ -608,17 +630,57 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
    apt-get install libapache2-mod-php7.0 -y
    apt-get install unzip -y
    ```
-6. Buat file baru `vim /etc/apache2/sites-available/super.franky.e14.com.conf` dan tambahkan configurasi berikut.
-7. Aktifkan site yang baru dibuat sengan menjalankan `a2ensite super.franky.e14.com.conf`.
-8. Download folder super.franky yang telah disediakan di modul sebelumnya untuk resource di folder `/var/www` dengan menjalankan perintah berikut.
+5. Buat file baru `vim /etc/apache2/sites-available/super.franky.e14.com.conf` dan tambahkan configurasi berikut. 
+   ```
+   <VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/super.franky.e14.com
+        ServerName super.franky.e14.com
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+        <Directory /var/www/super.franky.e14.com/public>
+                Options +Indexes
+        </Directory>
+   </VirtualHost>
+   ```
+6. Aktifkan site yang baru dibuat sengan menjalankan `a2ensite super.franky.e14.com.conf`.
+7. Download folder super.franky yang telah disediakan di modul sebelumnya untuk resource di folder `/var/www` dengan menjalankan perintah berikut.
    ```
    wget https://raw.githubusercontent.com/FeinardSlim/Praktikum-Modul-2-Jarkom/main/super.franky.zip
    unzip super.franky.zip
    mv super.franky /var/www/super.franky.e14.com
    ```
-9. Restart Apache2 untuk menerapkan perubahan dengan menjalakan `service apache2 restart`.
-10. Pada Water7 buka file `/etc/squid/squid.conf` dan tambahkan konfigurasi berikut.
-11. Untuk mengecek hasilnya, pada Loguetown jalankan `lynx google.com`. Maka hasilnya akan menunjukan seperti gambar di bawah ini.
+8. Restart Apache2 untuk menerapkan perubahan dengan menjalakan `service apache2 restart`.
+9. Pada Water7 buka file `/etc/squid/squid.conf` dan tambahkan konfigurasi berikut.
+```
+include /etc/squid/acl.conf
+
+http_port 5000
+visible_hostname Water7
+
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+auth_param basic children 5
+auth_param basic realm Proxy
+auth_param basic credentialsttl 2 hours
+auth_param basic casesensitive on
+acl USERS proxy_auth REQUIRED
+
+acl LAN src 10.36.3.0/24 10.36.1.0/24
+
+acl BAD_SITES dstdomain .google.com
+
+deny_info http://super.franky.e14.com LAN
+
+http_reply_access deny BAD_SITES LAN
+
+http_access allow USERS AVAILABLE_WORKING1
+http_access allow USERS AVAILABLE_WORKING2
+http_access allow USERS AVAILABLE_WORKING3
+http_access deny all
+dns_nameservers 10.36.2.2
+```
+12. Untuk mengecek hasilnya, pada Loguetown jalankan `lynx google.com`. Maka hasilnya akan menunjukan seperti gambar di bawah ini.
+![alt_text](img/11.png)
 
 ## Soal 12
 
