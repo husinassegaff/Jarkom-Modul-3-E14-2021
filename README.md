@@ -590,7 +590,7 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
 
 **Pembahasan**
 
-1. Untuk membatasi ekstensi file yang dapat diunduh, maka ditambahkan line berikut pada ```/etc/squid/squid.conf```. Digunakan ACl url_regex untuk membatasi file yang dapat diunduh hanya yang memiliki ekstensi .png dan .jpg.
+1. Untuk membatasi ekstensi file yang dapat diunduh, maka ditambahkan line berikut pada ```/etc/squid/squid.conf``` di **Water7**. Digunakan ACl url_regex untuk membatasi file yang dapat diunduh hanya yang memiliki ekstensi .png dan .jpg.
 
    ```acl multimedia url_regex -i \.png$ \.jpg$```
 
@@ -641,6 +641,8 @@ Sehingga yang harus ditambahkan pada ```/etc/squid/squid.conf``` adalah sebagai 
 ```
 
 ![no12_squid.conf](img/no12_squid.conf.png)
+
+   Selanjutnya dilakukan testing pada **Loguetown**. 
 
 ## No 13
 
