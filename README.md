@@ -630,25 +630,26 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
 **Pembahasan**
 
 1. Untuk membatasi ekstensi file yang dapat diunduh, maka ditambahkan line berikut pada `/etc/squid/squid.conf` di **Water7**. Digunakan ACl url_regex untuk membatasi file yang dapat diunduh hanya yang memiliki ekstensi .png dan .jpg.
-
-   `acl multimedia url_regex -i \.png$ \.jpg$`
+   ```
+   acl multimedia url_regex -i \.png$ \.jpg$
+   ```
 
 2. Selanjutnya karena batasan ekstensi yang dapat diunduh hanya untuk Luffy, maka ditambahkan line dibawah untuk identifikasi user mana yang diterapkan aturan ini.
-
-   `acl bar proxy_auth luffybelikapale14`
-
+   ```
+   acl bar proxy_auth luffybelikapale14
+   ```
 3. Untuk mengendalikan besarnya bandwidth pada pengunduhan maka digunakan delay pools. Saat ini hanya diperlukan 1 delay pools maka ditambahkan line berikut.
-
-   `delay_pools 1`
-
+   ```
+   delay_pools 1
+   ```
 4. Selanjutnya untuk tipe delay, cukup digunakan delay class jenis 1.
-
-   `delay_class 1 1`
+   ```
+   delay_class 1 1
+   ```
 
 5. Kemudian karena bandwidth dibatasi pada 10 kbps, maka dilakukan perhitungan berikut.
    10 kbps = 10000 bit per sec
    10000 bit per sec/8 = 1250 Byte per sec
-   <<<<<<< HEAD
 
    Sehingga parameter delay pools adalah sebagai berikut.
 
@@ -656,17 +657,20 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
    Restore menunjukkan maksimum kecepatan data yang dapat dilewatkan bila harga max sudah terlampaui, dalam satuan bytes/second.  
    Sedangkan max menunjukkan besar-nya file atau bucket yang dapat dilewatkan tanpa melalui proses delay, dalam satuan bytes.
    Karena pembatasan perlu dilakukan pada proses mendapatkan gambar dan melihatnya, maka pembatasan kecepatan sudah dilakukan sebelum pengunduhan file.
-   Agar kecepatan tidak melampaui 10 kbps, maka nilai max diperkecil. Misa kita tentukan batasnya 10 KB.
-
-   `delay_parameters 1 1250/1250`
+   Agar kecepatan tidak melampaui 10 kbps, maka nilai max diperkecil. Misa kita tentukan batasnya 1 KB.
+   ```
+   delay_parameters 1 1250/1000
+   ```
 
 6. Selanjutnya dilakukan setting akses-akses untuk delay pool. Jika user terlist di `bar`, maka batasan `multimedia` diterapkan.
-
-   `delay_access 1 allow bar multimedia`
+   ```
+   delay_access 1 allow bar multimedia
+   ```
 
    Karena hanya Luffy yang dapat mengunduh file dengan ekstensi (.png, .jpg), maka akses user lain ke file terhadap ekstensi tersebut ditolak.
-
-   `delay_access 1 deny all`
+   ```
+   delay_access 1 deny all
+   ```
 
 Tambahan: `http_access deny all` dipindah ke line paling akhir.
 
