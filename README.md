@@ -610,9 +610,13 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
    10 kbps = 10000 bit per sec
    10000 bit per sec/8 = 1250 Byte per sec
    
-   Sehingga parameter delay pools adalah sebagai berikut.
+   Format dari delay_parameter adalah restore/max. 
+   Restore menunjukkan maksimum kecepatan data yang dapat dilewatkan bila harga max sudah terlampaui, dalam satuan bytes/second.   
+   Sedangkan max menunjukkan besar-nya file atau bucket yang dapat dilewatkan tanpa melalui proses delay, dalam satuan bytes.
+   Karena pembatasan perlu dilakukan pada proses mendapatkan gambar dan melihatnya, maka pembatasan kecepatan sudah dilakukan sebelum pengunduhan file.
+   Agar kecepatan tidak melampaui 10 kbps, maka nilai max diperkecil. Misa kita tentukan batasnya 1 KB.
    
-   ```delay_parameters 1 1250/1250```
+   ```delay_parameters 1 1250/125```
 
 6. Selanjutnya dilakukan setting akses-akses untuk delay pool. Jika user terlist di ```bar```, maka batasan ```multimedia``` diterapkan.
 
@@ -643,3 +647,22 @@ Sehingga yang harus ditambahkan pada ```/etc/squid/squid.conf``` adalah sebagai 
 Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kecepatan kapal Zoro tidak dibatasi ketika sudah mendapatkan harta yang diinginkannya.
 
 **Pembahasan**
+
+Berdasarkan soal ini, kecepatan Zoro tidak dibatasi saat melihat file, namu kemungkinan dibatasi saat pengunduhan. Maka dari itu, ditambahkan delay pool satu lagi untuk Zoro. Ukuran file terkecil pada website super.franky.e14.com adalah sekitar 20 KB. Sehingga ketika max 20 KB hit, maka kecepatan di restore tidak dibatasi lagi.
+
+```
+   acl multimedia url_regex -i \.png$ \.jpg$
+   acl bar proxy_auth luffybelikapale14
+   acl foo proxy_auth zorobelikapale14
+   
+   delay_pools 2
+   delay_class 1 1
+   delay_parameters 1 1250/1250
+   delay_access 1 allow bar multimedia
+   delay_access 1 deny all
+   
+   delay_class 2 1
+   delay_parameters 2 -1/20000
+   delay_access 2 allow foo
+   delay_access 2 deny all
+```
