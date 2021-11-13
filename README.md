@@ -421,8 +421,7 @@ Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e14.com denga
 
      ```
      http_port 5000
-     visible_hostname jualbelikapal.e14.com
-
+     visible_hostname Water7
      http_access allow all
      ```
 
@@ -431,31 +430,69 @@ Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.e14.com denga
      service squid restart
      ```
 
-2. Konfigurasi proxy pada **Loguetown**
+2. Konfigurasi bind9 pada **EniesLobby**
+
+   - Buka file konfigurasi pada `/etc/bind/named.conf.local`
+
+     ```
+     nano /etc/bind/named.conf.local
+     ```
+
+   - Tambahkan sintaks berikut
+     ```
+     zone "jualbelikapal.e14.com" {
+         type master;
+         file "/etc/bind/jarkom/jualbelikapal.e14.com";
+     };
+     ```
+   - Buat folder `kaizoku` pada `/etc/bind`
+
+     ```
+     mkdir /etc/bind/kaizoku
+     ```
+
+   - Copykan file `db.local` pada path `/etc/bind` ke dalam folder `kaizoku` yang baru saja dibuat dan ubah namanya menjadi jualbelikapal.e14.com
+
+     ```
+     cp /etc/bind/db.local /etc/bind/kaizoku/jualbelikapal.e14.com
+     ```
+
+   - Kemudian, buka file tersebut dan edit seperti gambar di bawah ini
+
+     ```
+     nano /etc/bind/kaizoku/jualbelikapal.e14.com
+     ```
+
+     ![bind9_enieslobby](img/no8_bind9_enieslobby.png)
+
+   - Restart bind9
+     ```
+     service bind9 restart
+     ```
+
+3. Konfigurasi proxy pada **Loguetown**
+   - Untuk memeriksa proxy terhubung dengan internet dapat dilakukan instalasi lynx
+     ```
+     apt-get update
+     apt-get install lynx -y
+     ```
    - Mengaktifkan proxy dengan sintaks
      ```
-     export http_proxy="http://10.36.2.3:5000"
+     export http_proxy="http://jualbelikapal.e14.com:5000"
      ```
    - Periksa apakah konfigurasi berhasil dengan sintaks
      ```
      env | grep -i proxy
      ```
-   - Untuk memeriksa proxy terhubung dengan internet dapat dilakukan instalasi lynx
+   - Lalu, dicoba ping pada google.com
      ```
-     unset http_prox
-     apt-get update
-     apt-get install lynx -y
+     ping google.com
      ```
-     NB: Pastikan proxy pada **Loguetown** telah dimatikan dengan perintah `unset http_proxy`
-   - Lalu, dicoba lynx pada google.com
-     ```
-     lynx google.com
-     ```
-     ![lynx_loguetown](img/no8_lynx_loguetown.png)
+     ![ping_loguetown](img/no8_ping_loguetown.png)
 
 ## No 9
 
-Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapalyyy dengan password luffy_yyy dan zorobelikapalyyy dengan password zoro_yyy
+Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapale14 dengan password luffy_e14 dan zorobelikapale14 dengan password zoro_e14
 
 **Pembahasan**
 
@@ -483,7 +520,7 @@ Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy di
 
      ```
      http_port 5000
-     visible_hostname jualbelikapal.e14.com
+     visible_hostname Water7
 
      auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
      auth_param basic children 5
@@ -502,6 +539,7 @@ Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy di
 2. Testing pada **Loguetown**
    - Mencoba lynx pada google.com
      ![lynx_loguetown](img/no9_lynx_loguetown.png)
+     ![lynx2_loguetown](img/no9_lynx2_loguetown.png)
 
 ## No 10
 
@@ -517,9 +555,9 @@ Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet 
      ```
    - Lalu, tambahkan konfigurasi berikut ini
      ```
-     acl time1 time MTWH 07:00-11:00
-     acl time2 time TWHF 17:00-24:00
-     acl time3 time WHFA 00:00-03:00
+     acl AVAILABLE_WORKING time MTWH 07:00-11:00
+     acl AVAILABLE_WORKING time TWHF 17:00-23:59
+     acl AVAILABLE_WORKING time WHFA 00:00-03:00
      ```
    - Kemudian, buka file `/etc/squid/squid.conf`
      ```
@@ -528,20 +566,21 @@ Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet 
    - Dan ubah menjadi sebagai berikut
 
      ```
-     include /etc/squid/acl.conf
+      include /etc/squid/acl.conf
 
-     http_port 5000
-     http_access allow time1 time2 time3
-     http_access deny all
-     visible_hostname jualbelikapal.e14.com
+      http_port 5000
+      visible_hostname Water7
+      #http_access allow all
 
-     auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
-     auth_param basic children 5
-     auth_param basic realm Proxy
-     auth_param basic credentialsttl 2 hours
-     auth_param basic casesensitive on
-     acl USERS proxy_auth REQUIRED
-     http_access allow USERS
+
+      auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+      auth_param basic children 5
+      auth_param basic realm Proxy
+      auth_param basic credentialsttl 2 hours
+      auth_param basic casesensitive on
+      acl USERS proxy_auth REQUIRED
+      http_access allow USERS AVAILABLE_WORKING
+      http_access deny all
      ```
 
    - Lalu, restart squid
@@ -553,6 +592,7 @@ Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet 
    - Mencoba lynx pada google.com
      ![lynx_loguetown](img/no10_lynx_loguetown.png)
      Terjadi _access denied_ karena diakses bukan pada waktu yang diperbolehkan
+
 ## No 11
 
 Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar mudah mengingat website transaksi jual beli kapal. Setiap mengakses google.com, akan diredirect menuju super.franky.yyy.com dengan website yang sama pada soal shift modul 2. Web server super.franky.yyy.com berada pada node Skypie
@@ -571,18 +611,17 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
    apt-get install libapache2-mod-php7.0 -y
    apt-get install unzip -y
    ```
-7. Buat file baru `vim /etc/apache2/sites-available/super.franky.e14.com.conf` dan tambahkan configurasi berikut.
-8. Aktifkan site yang baru dibuat sengan menjalankan `a2ensite super.franky.e14.com.conf`.
-9. Download folder super.franky yang telah disediakan di modul sebelumnya untuk resource di folder `/var/www` dengan menjalankan perintah berikut.
+6. Buat file baru `vim /etc/apache2/sites-available/super.franky.e14.com.conf` dan tambahkan configurasi berikut.
+7. Aktifkan site yang baru dibuat sengan menjalankan `a2ensite super.franky.e14.com.conf`.
+8. Download folder super.franky yang telah disediakan di modul sebelumnya untuk resource di folder `/var/www` dengan menjalankan perintah berikut.
    ```
    wget https://raw.githubusercontent.com/FeinardSlim/Praktikum-Modul-2-Jarkom/main/super.franky.zip
    unzip super.franky.zip
    mv super.franky /var/www/super.franky.e14.com
    ```
-10. Restart Apache2 untuk menerapkan perubahan dengan menjalakan `service apache2 restart`.
-11. Pada Water7 buka file `/etc/squid/squid.conf` dan tambahkan konfigurasi berikut.
-12. Untuk mengecek hasilnya, pada Loguetown jalankan `lynx google.com`. Maka hasilnya akan menunjukan seperti gambar di bawah ini.
-
+9. Restart Apache2 untuk menerapkan perubahan dengan menjalakan `service apache2 restart`.
+10. Pada Water7 buka file `/etc/squid/squid.conf` dan tambahkan konfigurasi berikut.
+11. Untuk mengecek hasilnya, pada Loguetown jalankan `lynx google.com`. Maka hasilnya akan menunjukan seperti gambar di bawah ini.
 
 ## No 12
 
@@ -590,45 +629,46 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
 
 **Pembahasan**
 
-1. Untuk membatasi ekstensi file yang dapat diunduh, maka ditambahkan line berikut pada ```/etc/squid/squid.conf```. Digunakan ACl url_regex untuk membatasi file yang dapat diunduh hanya yang memiliki ekstensi .png dan .jpg.
+1. Untuk membatasi ekstensi file yang dapat diunduh, maka ditambahkan line berikut pada `/etc/squid/squid.conf`. Digunakan ACl url_regex untuk membatasi file yang dapat diunduh hanya yang memiliki ekstensi .png dan .jpg.
 
-   ```acl multimedia url_regex -i \.png$ \.jpg$```
+   `acl multimedia url_regex -i \.png$ \.jpg$`
 
-2. Selanjutnya karena batasan ekstensi yang dapat diunduh hanya untuk Luffy, maka ditambahkan line dibawah untuk identifikasi user mana yang diterapkan aturan ini. 
-   
-   ```acl bar proxy_auth luffybelikapale14```
+2. Selanjutnya karena batasan ekstensi yang dapat diunduh hanya untuk Luffy, maka ditambahkan line dibawah untuk identifikasi user mana yang diterapkan aturan ini.
+
+   `acl bar proxy_auth luffybelikapale14`
 
 3. Untuk mengendalikan besarnya bandwidth pada pengunduhan maka digunakan delay pools. Saat ini hanya diperlukan 1 delay pools maka ditambahkan line berikut.
-   
-   ```delay_pools 1```
+
+   `delay_pools 1`
 
 4. Selanjutnya untuk tipe delay, cukup digunakan delay class jenis 1.
 
-   ```delay_class 1 1```
+   `delay_class 1 1`
 
 5. Kemudian karena bandwidth dibatasi pada 10 kbps, maka dilakukan perhitungan berikut.
    10 kbps = 10000 bit per sec
    10000 bit per sec/8 = 1250 Byte per sec
-   
+
    Sehingga parameter delay pools adalah sebagai berikut.
-   
-   ```delay_parameters 1 1250/1250```
 
-6. Selanjutnya dilakukan setting akses-akses untuk delay pool. Jika user terlist di ```bar```, maka batasan ```multimedia``` diterapkan.
+   `delay_parameters 1 1250/1250`
 
-   ```delay_access 1 allow bar multimedia```
+6. Selanjutnya dilakukan setting akses-akses untuk delay pool. Jika user terlist di `bar`, maka batasan `multimedia` diterapkan.
 
-   Karena hanya Luffy yang dapat mengunduh file dengan ekstensi (.png, .jpg), maka akses user lain ke file terhadap ekstensi tersebut ditolak. 
+   `delay_access 1 allow bar multimedia`
 
-   ```delay_access 1 deny all```
+   Karena hanya Luffy yang dapat mengunduh file dengan ekstensi (.png, .jpg), maka akses user lain ke file terhadap ekstensi tersebut ditolak.
 
-Tambahan: ```http_access deny all``` dipindah ke line paling akhir.
+   `delay_access 1 deny all`
 
-Sehingga yang harus ditambahkan pada ```/etc/squid/squid.conf``` adalah sebagai berikut.
+Tambahan: `http_access deny all` dipindah ke line paling akhir.
+
+Sehingga yang harus ditambahkan pada `/etc/squid/squid.conf` adalah sebagai berikut.
+
 ```
    acl multimedia url_regex -i \.png$ \.jpg$
    acl bar proxy_auth luffybelikapale14
-   
+
    delay_pools 1
    delay_class 1 1
    delay_parameters 1 1250/1250
