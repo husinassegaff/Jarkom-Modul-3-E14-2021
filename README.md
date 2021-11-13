@@ -652,35 +652,35 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
    ```
 8. Restart Apache2 untuk menerapkan perubahan dengan menjalakan `service apache2 restart`.
 9. Pada Water7 buka file `/etc/squid/squid.conf` dan tambahkan konfigurasi berikut.
-```
-include /etc/squid/acl.conf
+   ```
+   include /etc/squid/acl.conf
 
-http_port 5000
-visible_hostname Water7
+   http_port 5000
+   visible_hostname Water7
 
-auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
-auth_param basic children 5
-auth_param basic realm Proxy
-auth_param basic credentialsttl 2 hours
-auth_param basic casesensitive on
-acl USERS proxy_auth REQUIRED
+   auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+   auth_param basic children 5
+   auth_param basic realm Proxy
+   auth_param basic credentialsttl 2 hours
+   auth_param basic casesensitive on
+   acl USERS proxy_auth REQUIRED
+   
+   acl LAN src 10.36.3.0/24 10.36.1.0/24
+   
+   acl BAD_SITES dstdomain .google.com
 
-acl LAN src 10.36.3.0/24 10.36.1.0/24
+   deny_info http://super.franky.e14.com LAN
 
-acl BAD_SITES dstdomain .google.com
+   http_reply_access deny BAD_SITES LAN
 
-deny_info http://super.franky.e14.com LAN
-
-http_reply_access deny BAD_SITES LAN
-
-http_access allow USERS AVAILABLE_WORKING1
-http_access allow USERS AVAILABLE_WORKING2
-http_access allow USERS AVAILABLE_WORKING3
-http_access deny all
-dns_nameservers 10.36.2.2
-```
+   http_access allow USERS AVAILABLE_WORKING1
+   http_access allow USERS AVAILABLE_WORKING2
+   http_access allow USERS AVAILABLE_WORKING3
+   http_access deny all
+   dns_nameservers 10.36.2.2
+   ```
 12. Untuk mengecek hasilnya, pada Loguetown jalankan `lynx google.com`. Maka hasilnya akan menunjukan seperti gambar di bawah ini.
-![alt_text](img/11.png)
+   ![alt_text](img/11.png)
 
 ## Soal 12
 
