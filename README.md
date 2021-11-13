@@ -698,18 +698,18 @@ Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kece
 Berdasarkan soal ini, kecepatan Zoro tidak dibatasi saat melihat file, namu kemungkinan dibatasi saat pengunduhan. Maka dari itu, ditambahkan delay pool satu lagi untuk Zoro. Ukuran file terkecil pada website super.franky.e14.com adalah sekitar 20 KB. Sehingga ketika max 20 KB hit, maka kecepatan di restore tidak dibatasi lagi.
 
 ```
-   acl multimedia url_regex -i \.png$ \.jpg$
-   acl bar proxy_auth luffybelikapale14
-   acl foo proxy_auth zorobelikapale14
+   acl IMAGES url_regex -i \.png$ \.jpg$
+   acl LUFFY proxy_auth luffybelikapale14
+   acl ZORO proxy_auth zorobelikapale14
 
    delay_pools 2
    delay_class 1 1
    delay_parameters 1 1250/1250
-   delay_access 1 allow bar multimedia
+   delay_access 1 allow LUFFY IMAGES
    delay_access 1 deny all
 
    delay_class 2 1
    delay_parameters 2 -1/20000
-   delay_access 2 allow foo
+   delay_access 2 allow ZORO
    delay_access 2 deny all
 ```
