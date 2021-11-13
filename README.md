@@ -680,7 +680,7 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
    dns_nameservers 10.36.2.2
    ```
 12. Untuk mengecek hasilnya, pada Loguetown jalankan `lynx google.com`. Maka hasilnya akan menunjukan seperti gambar di bawah ini.
-   ![alt_text](img/11.png)
+   ![alt_text](img/11.PNG)
 
 ## Soal 12
 
