@@ -735,7 +735,7 @@ Tambahan: `http_access deny all` dipindah ke line paling akhir.
 
 Sehingga yang harus ditambahkan pada `/etc/squid/squid.conf` adalah sebagai berikut.
 
-```
+   ```
    acl IMAGES url_regex -i \.png$ \.jpg$
    acl LUFFY proxy_auth luffybelikapale14
 
@@ -744,11 +744,10 @@ Sehingga yang harus ditambahkan pada `/etc/squid/squid.conf` adalah sebagai beri
    delay_parameters 1 1250/1250
    delay_access 1 allow LUFFY IMAGES
    delay_access 1 deny all
-```
-
-![no12_squid.conf](img/no12_squid.conf.png)
+   ```
 
 Selanjutnya dilakukan testing pada **Loguetown**.
+   ![alt_text](img/12.png)
 
 ## Soal 13
 
@@ -758,7 +757,7 @@ Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kece
 
 Berdasarkan soal ini, kecepatan Zoro tidak dibatasi saat melihat file, namu kemungkinan dibatasi saat pengunduhan. Maka dari itu, ditambahkan delay pool satu lagi untuk Zoro. Ukuran file terkecil pada website super.franky.e14.com adalah sekitar 20 KB. Sehingga ketika max 20 KB hit, maka kecepatan di restore tidak dibatasi lagi.
 
-```
+   ```
    acl IMAGES url_regex -i \.png$ \.jpg$
    acl LUFFY proxy_auth luffybelikapale14
    acl ZORO proxy_auth zorobelikapale14
@@ -773,8 +772,8 @@ Berdasarkan soal ini, kecepatan Zoro tidak dibatasi saat melihat file, namu kemu
    delay_parameters 2 300000/20000
    delay_access 2 allow ZORO
    delay_access 2 deny all
-```
-
+   ```
+   ![alt_text](img/13.png)
 ## Kendala
 
 Kendala yang dialami kelompok kami pada pengerjaan nomor 12 dan 13
