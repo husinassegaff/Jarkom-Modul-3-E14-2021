@@ -677,13 +677,13 @@ Tambahan: `http_access deny all` dipindah ke line paling akhir.
 Sehingga yang harus ditambahkan pada `/etc/squid/squid.conf` adalah sebagai berikut.
 
 ```
-   acl multimedia url_regex -i \.png$ \.jpg$
-   acl bar proxy_auth luffybelikapale14
+   acl IMAGES url_regex -i \.png$ \.jpg$
+   acl LUFFY proxy_auth luffybelikapale14
 
    delay_pools 1
    delay_class 1 1
    delay_parameters 1 1250/1250
-   delay_access 1 allow bar multimedia
+   delay_access 1 allow LUFFY IMAGES
    delay_access 1 deny all
 ```
 
