@@ -654,11 +654,9 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
 
    Format dari delay_parameter adalah restore/max.
    Restore menunjukkan maksimum kecepatan data yang dapat dilewatkan bila harga max sudah terlampaui, dalam satuan bytes/second.  
-    Sedangkan max menunjukkan besar-nya file atau bucket yang dapat dilewatkan tanpa melalui proses delay, dalam satuan bytes.
+   Sedangkan max menunjukkan besar-nya file atau bucket yang dapat dilewatkan tanpa melalui proses delay, dalam satuan bytes.
    Karena pembatasan perlu dilakukan pada proses mendapatkan gambar dan melihatnya, maka pembatasan kecepatan sudah dilakukan sebelum pengunduhan file.
-   Agar kecepatan tidak melampaui 10 kbps, maka nilai max diperkecil. Misa kita tentukan batasnya 1 KB.
-
-   `delay_parameters 1 1250/125`
+   Agar kecepatan tidak melampaui 10 kbps, maka nilai max diperkecil. Misa kita tentukan batasnya 10 KB.
 
    `delay_parameters 1 1250/1250`
 
